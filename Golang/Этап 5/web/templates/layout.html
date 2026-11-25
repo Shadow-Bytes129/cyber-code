@@ -1,0 +1,44 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Учёт трат</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <nav style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <!-- Показываем ссылки на траты ТОЛЬКО если пользователь авторизован -->
+        {{if or (eq .Page "list") (eq .Page "form")}}
+          <a href="/expenses">Список трат</a>
+          <a href="/expenses/new">Добавить</a>
+        {{end}}
+      </div>
+      
+      <div>
+        <!-- Если мы внутри приложения, показываем кнопку выхода -->
+        {{if or (eq .Page "list") (eq .Page "form")}}
+          <form method="POST" action="/logout" style="display:inline; margin: 0;">
+            <button type="submit" style="background:none; border:none; color:#0645ad; cursor:pointer; text-decoration:underline; padding: 0; font-size: 1rem;">Выйти</button>
+          </form>
+        {{end}}
+      </div>
+    </nav>
+  </header>
+  <main>
+    <!-- Роутинг контента в зависимости от страницы -->
+    {{if eq .Page "form"}}
+      {{template "form_content" .}}
+    {{else if eq .Page "login"}}
+      {{template "login_content" .}}
+    {{else if eq .Page "register"}}
+      {{template "register_content" .}}
+    {{else}}
+      {{template "index_content" .}}
+    {{end}}
+  </main>
+</body>
+</html>
+{{end}}

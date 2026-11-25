@@ -1,0 +1,42 @@
+{{define "form_content"}}
+<h1>{{if .IsEdit}}Редактировать трату{{else}}Добавить трату{{end}}</h1>
+
+{{if .Expense.ErrorMsg}}
+<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+  <strong>Ошибка:</strong> {{.Expense.ErrorMsg}}
+</div>
+{{end}}
+
+<form method="POST" action="{{if .IsEdit}}/expenses/{{.Expense.ID}}{{else}}/expenses{{end}}">
+  <label>Сумма (₽):
+    <input type="number" step="0.01" min="0.01" name="amount" required
+           value="{{if .IsEdit}}{{printf "%.2f" .Expense.Amount}}{{end}}">
+  </label>
+
+  <label>Описание:
+    <input type="text" name="description" required
+           value="{{if .IsEdit}}{{.Expense.Description}}{{end}}">
+  </label>
+
+  <label>Категория:
+    <select name="category_id">
+      {{range .Categories}}
+        <option value="{{.ID}}"
+          {{if and $.IsEdit (eq .ID $.Expense.CategoryID)}}selected{{end}}>
+          {{.Name}}
+        </option>
+      {{end}}
+    </select>
+  </label>
+
+  <label>Дата:
+    <input type="date" name="date" required
+           value="{{if .IsEdit}}{{.Expense.Date.Format "2006-01-02"}}{{end}}">
+  </label>
+
+  <div class="form-actions">
+    <button type="submit">Сохранить</button>
+    <a href="/expenses">Отмена</a>
+  </div>
+</form>
+{{end}}

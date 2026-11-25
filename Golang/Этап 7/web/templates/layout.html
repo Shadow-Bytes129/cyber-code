@@ -1,0 +1,49 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Учёт трат</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <nav style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        {{if or (eq .Page "list") (eq .Page "form") (eq .Page "stats")}}
+          <a href="/expenses">Список трат</a>
+          <a href="/expenses/new">Добавить</a>
+          <a href="/stats">Статистика</a>
+        {{else if ne .Page "error"}}
+          <a href="/login">Вход</a>
+          <a href="/register">Регистрация</a>
+        {{end}}
+      </div>
+      
+      <div>
+        {{if or (eq .Page "list") (eq .Page "form") (eq .Page "stats")}}
+          <form method="POST" action="/logout" style="display:inline; margin: 0;">
+            <button type="submit" style="background:none; border:none; color:#0645ad; cursor:pointer; text-decoration:underline; padding: 0; font-size: 1rem;">Выйти</button>
+          </form>
+        {{end}}
+      </div>
+    </nav>
+  </header>
+  <main>
+    {{if eq .Page "form"}}
+      {{template "form_content" .}}
+    {{else if eq .Page "login"}}
+      {{template "login_content" .}}
+    {{else if eq .Page "register"}}
+      {{template "register_content" .}}
+    {{else if eq .Page "stats"}}
+      {{template "stats_content" .}}
+    {{else if eq .Page "error"}}
+      {{template "error_content" .}}
+    {{else}}
+      {{template "index_content" .}}
+    {{end}}
+  </main>
+</body>
+</html>
+{{end}}

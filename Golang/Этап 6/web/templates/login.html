@@ -1,0 +1,15 @@
+{{define "login_content"}}
+<h1>Вход в систему</h1>
+<form method="POST" action="/login">
+  <label>Email: 
+    <input type="email" name="email" required>
+  </label>
+  <label>Пароль: 
+    <input type="password" name="password" required>
+  </label>
+  <div class="form-actions">
+    <button type="submit">Войти</button>
+    <a href="/register">Нет аккаунта? Зарегистрироваться</a>
+  </div>
+</form>
+{{end}}
